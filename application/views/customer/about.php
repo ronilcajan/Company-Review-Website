@@ -1,12 +1,12 @@
 <!-- ======= Hero Section ======= -->
 <section class="d-flex align-items-center hero-bg">
 
-<div class="container">
-  <div class="text-center">
+  <div class="container">
+    <div class="text-center">
       <h1 data-aos="fade-up">About Us</h1>
-      <h2 data-aos="fade-up" data-aos-delay="400">We are team of talented designers making websites with Bootstrap</h2>
+      <h3 data-aos="fade-up" data-aos-delay="400">We are team of talented designers making websites with Bootstrap</h3>
+    </div>
   </div>
-</div>
 
 </section><!-- End Hero -->
 <!-- ======= About Us Section ======= -->
