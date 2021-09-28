@@ -1,3 +1,18 @@
+#loading-container {
+	position: absolute;
+	display: flex;
+	height: 100%;
+	width: 100%;
+	background-color: white;
+	z-index: 9999;
+}
+#loading-screen {
+	position: absolute;
+	left: 48%;
+	top: 48%;
+	z-index: 9999;
+	text-align: center;
+}
 .field-icon {
 	float: right;
 	margin-left: -25px;
@@ -15,6 +30,14 @@
 	background-image: url("../../assets/img/bgheading01.jpg");
 	background-color: #f7fbfe;
 }
+.hero-estab {
+	width: 100%;
+	height: 100%;
+	margin-top: 70px;
+	background-image: url("../../assets/img/bgheading01.jpg");
+	background-color: #f7fbfe;
+	color: white;
+}
 .hero-bg h1 {
 	margin: 0 0 10px 0;
 	font-size: 48px;
@@ -31,4 +54,18 @@
 	box-shadow: none;
 	font-size: 14px;
 	padding: 10px 15px;
+}
+
+#rating {
+	color: black;
+	border: 5px solid #585294;
+	border-radius: 100%;
+	width: 80px;
+	height: 80px;
+	text-align: center;
+	background-color: #ffdf00;
+}
+
+#stars i {
+	cursor: pointer;
 }

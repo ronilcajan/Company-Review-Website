@@ -45,7 +45,12 @@
 						<p>Excepteur sint occaecat cupidatat non proident mollit any laboruys perspiciatis accusan
 							dolor que totams mollit anim est laborum sedut perspiciatis und omnis.</p>
 					</div>
-					<form action="forms/contact.php" method="post" role="form" class="php-email-form">
+					<?php if (!empty($this->session->flashdata('success'))) : ?>
+						<div class="alert alert-<?= $this->session->flashdata('success') != 'success' ? 'danger' : 'success' ?> alert-dismissible fade show" role="alert">
+							<small><?= $this->session->flashdata('message') ?></small>
+						</div>
+					<?php endif ?>
+					<form action="<?= site_url('inquiry/create') ?>" method="post" role="form" class="php-email-form">
 						<div class="form-group">
 							<input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
 						</div>

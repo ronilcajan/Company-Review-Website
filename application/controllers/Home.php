@@ -1,7 +1,8 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
-class Home extends CI_Controller {
+class Home extends CI_Controller
+{
 
 	/**
 	 * Index Page for this controller.
@@ -35,23 +36,54 @@ class Home extends CI_Controller {
 	}
 	public function contact()
 	{
-
 		$data['title'] = 'Contact Us';
 
 		$this->base->load('default', 'customer/contact', $data);
 	}
-	public function reviews()
+	public function establishment()
 	{
 
-		$data['title'] = 'All Reviews';
+		$data['estab'] = $this->estabModel->estabs();
+		$data['title'] = 'All Establishment';
 
-		$this->base->load('default', 'customer/reviews', $data);
+		$this->base->load('default', 'customer/establishment', $data);
 	}
 	public function category()
 	{
-
+		$data['cat'] = $this->catModel->category();
 		$data['title'] = 'All Categories';
 
 		$this->base->load('default', 'customer/category', $data);
+	}
+
+	public function category_info($id)
+	{
+		$data['estab'] = $this->catModel->category_info($id);
+		$data['name'] = $this->catModel->category($id);
+		$data['title'] = $data['name']->name;
+
+		$this->base->load('default', 'customer/category_info', $data);
+	}
+
+	public function listing()
+	{
+		$user = $this->ion_auth->user()->row();
+		$data['cat'] = $this->catModel->category();
+
+
+		$data['estab'] = $this->estabModel->estabishment($user->id);
+
+		$data['title'] = 'My Listing';
+
+		$this->base->load('default', 'customer/listing', $data);
+	}
+	public function establishment_info($id)
+	{
+		$data['estab'] = $this->estabModel->getestab($id);
+		$data['ratings'] = $this->reviewModel->getratings($id);
+		$data['reviews'] = $this->reviewModel->getreview($id);
+
+		$data['title'] = 'Establishment Profile';
+		$this->base->load('default', 'customer/establishment_info', $data);
 	}
 }

@@ -1,5 +1,5 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 /*
 | -------------------------------------------------------------------------
@@ -53,7 +53,23 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+$route['auth'] = 'auth/login';
+$route['admin/users'] = 'auth/users';
+
 $route['about'] = 'home/about';
 $route['contact'] = 'home/contact';
-$route['reviews'] = 'home/reviews';
+$route['establishment'] = 'home/establishment';
 $route['category'] = 'home/category';
+$route['category_info/(:num)'] = 'home/category_info/$1';
+$route['listing'] = 'home/listing';
+$route['establishment_info/(:num)'] = 'home/establishment_info/$1';
+$route['add_comment'] = 'review/add_comment';
+
+$route['admin/dashboard'] = 'dashboard/index';
+$route['admin/category'] = 'category/index';
+$route['admin/inquiry'] = 'inquiry/index';
+$route['admin/reviews'] = 'review/index';
+
+$route['admin/establishment'] = 'establishment/index';
+$route['get_estab'] = 'establishment/getEstab';
+$route['admin/establishment/(:num)'] = 'establishment/estab_profile/$1';

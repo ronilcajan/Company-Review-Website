@@ -10,8 +10,8 @@
 				<div class="col-lg-4"></div>
 				<div class="col-lg-4 col-md-12 border p-5 bg-white shadow" data-aos="fade-up" data-aos-delay="300">
 					<form action="<?= site_url('auth/login') ?>" method="post" role="form" class="php-email-form ">
-						<?php if($message): ?>
-							<div class="alert alert-<?= $this->session->flashdata('alert') != 'success' ? 'danger' : 'success' ?> alert-dismissible fade show" role="alert">
+						<?php if ($message) : ?>
+							<div class="alert alert-<?= $this->session->flashdata('success') != 'success' ? 'danger' : 'success' ?> alert-dismissible fade show" role="alert">
 								<small><?= $message ?></small>
 							</div>
 						<?php endif ?>

@@ -54,54 +54,312 @@ class Auth extends CI_Controller
 		}
 	}
 
+	public function users()
+	{
+
+		if (!$this->ion_auth->logged_in()) {
+			// redirect them to the login page
+			redirect('auth/login', 'refresh');
+		} else if (!$this->ion_auth->is_admin()) // remove this elseif if you want to enable this for non-admins
+		{
+			// redirect them to the home page because they must be an administrator to view this
+			show_error('You must be an administrator to view this page.');
+		} else {
+
+			$config['upload_path'] = 'assets/uploads/';
+			$config['allowed_types'] = 'jpg|png|jpeg|gif';
+			$config['encrypt_name'] = TRUE;
+
+			$this->load->library('upload', $config);
+
+			$this->session->set_flashdata('success', 'danger');
+
+			$tables = $this->config->item('tables', 'ion_auth');
+			$identity_column = $this->config->item('identity', 'ion_auth');
+			$this->data['identity_column'] = $identity_column;
+
+			// validate form input
+			$this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'trim|required');
+			$this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'trim|required');
+			$this->form_validation->set_rules('address', 'Address', 'trim|required');
+			if ($identity_column !== 'email') {
+				$this->form_validation->set_rules('identity', $this->lang->line('create_user_validation_identity_label'), 'trim|required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
+				$this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'trim|required|valid_email');
+			} else {
+				$this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'trim|required|valid_email|is_unique[' . $tables['users'] . '.email]');
+			}
+			$this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
+			$this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
+
+			if (isset($_POST) && !empty($_POST)) {
+				if ($this->form_validation->run() === TRUE) {
+					$email = strtolower($this->input->post('email'));
+					$identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
+					$password = $this->input->post('password');
+
+					if (!$this->upload->do_upload('avatar')) {
+						$additional_data = array(
+							'first_name' => $this->input->post('first_name'),
+							'last_name' => $this->input->post('last_name'),
+							'birthdate' => $this->input->post('birthdate'),
+							'address' => $this->input->post('address'),
+							'company' => $this->input->post('company'),
+							'phone' => $this->input->post('phone'),
+							'gender' => $this->input->post('gender'),
+
+						);
+						$group = array($this->input->post('group'));
+					} else {
+
+						$file = $this->upload->data();
+						//Resize and Compress Image
+						$config['image_library'] = 'gd2';
+						$config['source_image'] = 'assets/uploads/' . $file['file_name'];
+						$config['create_thumb'] = FALSE;
+						$config['maintain_ratio'] = TRUE;
+						$config['quality'] = '60%';
+						$config['new_image'] = 'assets/uploads/' . $file['file_name'];
+
+						$this->load->library('image_lib', $config);
+						$this->image_lib->resize();
+
+						$additional_data = array(
+							'first_name' => $this->input->post('first_name'),
+							'last_name' => $this->input->post('last_name'),
+							'birthdate' => $this->input->post('birthdate'),
+							'address' => $this->input->post('address'),
+							'avatar' => $file['file_name'],
+							'company' => $this->input->post('company'),
+							'phone' => $this->input->post('phone'),
+							'gender' => $this->input->post('gender'),
+						);
+						$group = array($this->input->post('group'));
+					}
+
+					if ($this->ion_auth->register($identity, $password, $email, $additional_data, $group)) {
+						// check to see if we are creating the user
+						// redirect them back to the admin page
+						$this->session->set_flashdata('success', 'success');
+						$this->session->set_flashdata('message', 'User account has been created. Please login here!');
+					} else {
+						$this->session->set_flashdata('message', 'Something went wrong. Please try again!');
+					}
+				} else {
+					$this->session->set_flashdata('message', validation_errors());
+				}
+			}
+
+			$this->data['title'] = $this->lang->line('index_heading') . ' Management';
+
+			// set the flash data error message if there is one
+			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+			//list the users
+			$this->data['users'] = $this->ion_auth->users()->result();
+
+			//USAGE NOTE - you can do more complicated queries like this
+			//$this->data['users'] = $this->ion_auth->where('field', 'value')->users()->result();
+
+			foreach ($this->data['users'] as $k => $user) {
+				$this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
+			}
+
+			$this->base->load('admin', 'admin/user/manage', $this->data);
+		}
+	}
+
 	/**
 	 * Log the user in
 	 */
 	public function login()
 	{
-		$this->data['title'] = $this->lang->line('login_heading');
+		if ($this->ion_auth->logged_in()) {
+			redirect('/', 'refresh');
+		} else {
+			$this->data['title'] = $this->lang->line('login_heading');
+
+			// validate form input
+			$this->form_validation->set_rules('identity', str_replace(':', '', $this->lang->line('login_identity_label')), 'required');
+			$this->form_validation->set_rules('password', str_replace(':', '', $this->lang->line('login_password_label')), 'required');
+
+			if ($this->form_validation->run() === TRUE) {
+				// check to see if the user is logging in
+				// check for "remember me"
+				$remember = (bool)$this->input->post('remember');
+
+				if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)) {
+					//if the login is successful
+					//redirect them back to the home page
+					$this->session->set_flashdata('success', 'success');
+					$this->session->set_flashdata('message', $this->ion_auth->messages());
+					if ($this->ion_auth->is_admin()) {
+						redirect('admin/dashboard', 'refresh');
+					} else {
+						redirect('/', 'refresh');
+					}
+				} else {
+					// if the login was un-successful
+					// redirect them back to the login page
+					$this->session->set_flashdata('success', 'danger');
+					$this->session->set_flashdata('message', 'Email or Password is incorrect!');
+					redirect('auth/login', 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
+				}
+			} else {
+				// the user is not logging in so display the login page
+				// set the flash data error message if there is one
+				$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+				$this->data['identity'] = [
+					'name' => 'identity',
+					'id' => 'identity',
+					'type' => 'text',
+					'value' => $this->form_validation->set_value('identity'),
+				];
+
+				$this->data['password'] = [
+					'name' => 'password',
+					'id' => 'password',
+					'type' => 'password',
+				];
+
+				$this->base->load('default', 'auth/login', $this->data);
+			}
+		}
+	}
+	public function user_profile($id)
+	{
+		$this->data['title'] = 'User Profile';
+
+		if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
+			redirect('auth', 'refresh');
+		}
+
+		$user = $this->ion_auth->user($id)->row();
+		$groups = $this->ion_auth->groups()->result_array();
+		$currentGroups = $this->ion_auth->get_users_groups($id)->result_array();
+
+		//USAGE NOTE - you can do more complicated queries like this
+		//$groups = $this->ion_auth->where(['field' => 'value'])->groups()->result_array();
+
+		$config['upload_path'] = 'assets/uploads/';
+		$config['allowed_types'] = 'jpg|png|jpeg|gif';
+		$config['encrypt_name'] = TRUE;
+
+		$this->load->library('upload', $config);
 
 		// validate form input
-		$this->form_validation->set_rules('identity', str_replace(':', '', $this->lang->line('login_identity_label')), 'required');
-		$this->form_validation->set_rules('password', str_replace(':', '', $this->lang->line('login_password_label')), 'required');
+		$this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'trim|required');
+		$this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'trim|required');
+		$this->form_validation->set_rules('address', $this->lang->line('edit_user_validation_lname_label'), 'trim|required');
 
-		if ($this->form_validation->run() === TRUE) {
-			// check to see if the user is logging in
-			// check for "remember me"
-			$remember = (bool)$this->input->post('remember');
-
-			if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)) {
-				//if the login is successful
-				//redirect them back to the home page
-				$this->session->set_flashdata('message', $this->ion_auth->messages());
-
-				redirect('/', 'refresh');
-			} else {
-				// if the login was un-successful
-				// redirect them back to the login page
-				$this->session->set_flashdata('message', 'Email or Password is incorrect!');
-				redirect('auth/login', 'refresh'); // use redirects instead of loading views for compatibility with MY_Controller libraries
+		if (isset($_POST) && !empty($_POST)) {
+			// do we have a valid request?
+			if ($this->_valid_csrf_nonce() === FALSE || $id != $this->input->post('id')) {
+				show_error($this->lang->line('error_csrf'));
 			}
-		} else {
-			// the user is not logging in so display the login page
-			// set the flash data error message if there is one
-			$this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
-			$this->data['identity'] = [
-				'name' => 'identity',
-				'id' => 'identity',
-				'type' => 'text',
-				'value' => $this->form_validation->set_value('identity'),
-			];
+			// update the password if it was posted
+			if ($this->input->post('password')) {
+				$this->form_validation->set_rules('password', $this->lang->line('edit_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|matches[password_confirm]');
+				$this->form_validation->set_rules('password_confirm', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
+			}
 
-			$this->data['password'] = [
-				'name' => 'password',
-				'id' => 'password',
-				'type' => 'password',
-			];
+			if ($this->form_validation->run() === TRUE) {
 
-			$this->base->load('default', 'auth/login', $this->data);
+				if (!$this->upload->do_upload('avatar')) {
+					$data = [
+						'first_name' => $this->input->post('first_name'),
+						'last_name' => $this->input->post('last_name'),
+						'birthdate' => $this->input->post('birthdate'),
+						'address' => $this->input->post('address'),
+						'company' => $this->input->post('company'),
+						'phone' => $this->input->post('phone'),
+						'gender' => $this->input->post('gender'),
+					];
+				} else {
+
+					$file = $this->upload->data();
+					//Resize and Compress Image
+					$config['image_library'] = 'gd2';
+					$config['source_image'] = 'assets/uploads/' . $file['file_name'];
+					$config['create_thumb'] = FALSE;
+					$config['maintain_ratio'] = TRUE;
+					$config['quality'] = '60%';
+					$config['new_image'] = 'assets/uploads/' . $file['file_name'];
+
+					$this->load->library('image_lib', $config);
+					$this->image_lib->resize();
+
+					$data = [
+						'first_name' => $this->input->post('first_name'),
+						'last_name' => $this->input->post('last_name'),
+						'birthdate' => $this->input->post('birthdate'),
+						'address' => $this->input->post('address'),
+						'avatar' => $file['file_name'],
+						'company' => $this->input->post('company'),
+						'phone' => $this->input->post('phone'),
+						'gender' => $this->input->post('gender'),
+					];
+				}
+
+				// update the password if it was posted
+				if ($this->input->post('password')) {
+					$data['password'] = $this->input->post('password');
+				}
+
+				// Only allow updating groups if user is admin
+				if ($this->ion_auth->is_admin()) {
+					// Update the groups user belongs to
+					$this->ion_auth->remove_from_group('', $id);
+
+					$groupData = $this->input->post('groups');
+					if (isset($groupData) && !empty($groupData)) {
+						foreach ($groupData as $grp) {
+							$this->ion_auth->add_to_group($grp, $id);
+						}
+					}
+				}
+				$this->ion_auth->update($user->id, $data);
+				$this->session->set_flashdata('success', 'success');
+				$this->session->set_flashdata('message', 'Profile has been updated!');
+			}
 		}
+
+		// display the edit user form
+		$this->data['csrf'] = $this->_get_csrf_nonce();
+
+		// set the flash data error message if there is one
+		$this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+
+		// pass the user to the view
+		$this->data['user'] = $user;
+		$this->data['groups'] = $groups;
+		$this->data['currentGroups'] = $currentGroups;
+
+		$this->data['first_name'] = [
+			'name'  => 'first_name',
+			'id'    => 'first_name',
+			'type'  => 'text',
+			'value' => $this->form_validation->set_value('first_name', $user->first_name),
+		];
+		$this->data['last_name'] = [
+			'name'  => 'last_name',
+			'id'    => 'last_name',
+			'type'  => 'text',
+			'value' => $this->form_validation->set_value('last_name', $user->last_name),
+		];
+		$this->data['password'] = [
+			'name' => 'password',
+			'id'   => 'password',
+			'type' => 'password'
+		];
+		$this->data['password_confirm'] = [
+			'name' => 'password_confirm',
+			'id'   => 'password_confirm',
+			'type' => 'password'
+		];
+
+		$this->base->load('admin', 'admin/user/user_profile', $this->data);
 	}
 
 	public function register()
@@ -138,16 +396,10 @@ class Auth extends CI_Controller
 				'last_name' => $this->input->post('last_name'),
 			];
 		}
-
-		$tables = $this->config->item('tables', 'ion_auth');
-		$identity_column = $this->config->item('identity', 'ion_auth');
-		$this->data['identity_column'] = $identity_column;
-
-
 		if ($this->form_validation->run() === TRUE && $this->ion_auth->register($identity, $password, $email, $additional_data)) {
 			// check to see if we are creating the user
 			// redirect them back to the admin page
-			$this->session->set_flashdata('alert', 'success');
+			$this->session->set_flashdata('success', 'success');
 			$this->session->set_flashdata('message', 'User account has been created. Please login here!');
 			redirect("auth/login", 'refresh');
 		} else {
@@ -194,6 +446,32 @@ class Auth extends CI_Controller
 
 
 			$this->base->load('default', 'auth/create_user', $this->data);
+		}
+	}
+
+	public function delete_user($id)
+	{
+		if (!$this->ion_auth->is_admin()) // remove this elseif if you want to enable this for non-admins
+		{
+			// redirect them to the home page because they must be an administrator to view this
+			show_error('You must be an administrator to delete user.');
+		} else {
+			$user = $this->ion_auth->user()->row();
+			if ($user->id == $id) {
+				$this->session->set_flashdata('success', 'danger');
+				$this->session->set_flashdata('message', 'Cannot delete your own account!');
+			} else {
+				$delete = $this->ion_auth->delete_user($id);
+				if ($delete) {
+					$this->session->set_flashdata('success', 'success');
+					$this->session->set_flashdata('message', 'User has been deleted!');
+				} else {
+					$this->session->set_flashdata('success', 'danger');
+					$this->session->set_flashdata('message', 'User cannot be deleted!');
+				}
+			}
+
+			redirect('admin/users', 'refresh');
 		}
 	}
 
