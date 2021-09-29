@@ -21,6 +21,13 @@ class CatModel extends CI_Model
         }
     }
 
+    public function getcategory()
+    {
+        $this->db->limit(8);
+        $query = $this->db->get('category');
+        return $query->result_array();
+    }
+
     public function category_info($id)
     {
         $this->db->select('*, establishment.name as name, category.name as cat_name,  category.id as cat_id, establishment.description as desc, establishment.id as id');

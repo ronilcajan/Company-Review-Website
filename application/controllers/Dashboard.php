@@ -26,7 +26,33 @@ class Dashboard extends CI_Controller
         }
 
         $data['title'] = 'Dashboard';
+        $data['estab'] = $this->dashboardModel->estab();
+        $data['reviews'] = $this->dashboardModel->reviews();
+        $data['cat'] = $this->dashboardModel->category();
+        $data['inqui'] = $this->dashboardModel->inqui();
 
         $this->base->load('admin', 'admin/dashboard', $data);
+    }
+
+    public function getEstab()
+    {
+        $validator = array('total' => array(), 'active' => array(), 'inactive' => array());
+
+        $validator['total'] = $this->dashboardModel->allestab();
+        $validator['active'] = $this->dashboardModel->estab();
+        $validator['inactive'] = $this->dashboardModel->getinactive();
+
+        echo json_encode($validator);
+    }
+
+    public function getUsers()
+    {
+        $validator = array('total' => array(), 'admin' => array(), 'members' => array());
+
+        $validator['total'] = $this->dashboardModel->allusers();
+        $validator['admin'] = $this->dashboardModel->adminusers();
+        $validator['members'] = $this->dashboardModel->members();
+
+        echo json_encode($validator);
     }
 }

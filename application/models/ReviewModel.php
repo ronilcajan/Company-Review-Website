@@ -21,6 +21,33 @@ class ReviewModel extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function comments()
+    {
+        $this->db->select('*, comments.id as id');
+        $this->db->join('review', 'review.id=comments.review_id');
+        $this->db->join('users', 'users.id=comments.user_id');
+        $query = $this->db->get('comments');
+        return $query->result_array();
+    }
+
+    public function review()
+    {
+        $this->db->select('*, review.status as status, review.id as rev_id');
+        $this->db->join('users', 'users.id=review.user_id', 'right');
+        $this->db->limit(8);
+        $query = $this->db->get('review');
+        return $query->result_array();
+    }
+
+    public function myreview($id)
+    {
+        $this->db->select('*, review.status as status, review.status as rev_id');
+        $this->db->join('establishment', 'establishment.id=review.estab_id');
+        $this->db->where('review.user_id ', $id);
+        $query = $this->db->get('review');
+        return $query->result_array();
+    }
+
     public function getratings($id)
     {
         $this->db->select('COUNT(review.id) as reviews');
@@ -53,6 +80,12 @@ class ReviewModel extends CI_Model
         return $this->db->affected_rows();
     }
 
+    public function delete_comment($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('comments');
+        return $this->db->affected_rows();
+    }
     public function delete($id)
     {
         $this->db->where('id', $id);

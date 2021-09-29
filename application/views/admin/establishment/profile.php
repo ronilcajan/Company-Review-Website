@@ -93,16 +93,12 @@
             <div class="card-footer">
                 <div class="row user-stats text-center">
                     <div class="col">
-                        <div class="number">125</div>
+                        <div class="number"><?= number_format($ratings->ratings, 1) ?></div>
                         <div class="title">Ratings</div>
                     </div>
                     <div class="col">
-                        <div class="number">25K</div>
+                        <div class="number"><?= number_format($ratings->reviews) ?></div>
                         <div class="title">Reviews</div>
-                    </div>
-                    <div class="col">
-                        <div class="number">134</div>
-                        <div class="title">Likes</div>
                     </div>
                 </div>
             </div>

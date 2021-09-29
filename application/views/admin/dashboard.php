@@ -27,7 +27,7 @@
                     <div class="col-9 col-stats">
                         <div class="numbers">
                             <p class="card-category">Establishment</p>
-                            <h4 class="card-title">10</h4>
+                            <h4 class="card-title"><?= number_format($estab) ?></h4>
                         </div>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                     <div class="col-9 col-stats">
                         <div class="numbers">
                             <p class="card-category">Reviews</p>
-                            <h4 class="card-title">10</h4>
+                            <h4 class="card-title"><?= number_format($reviews) ?></h4>
                         </div>
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                     <div class="col-9 col-stats">
                         <div class="numbers">
                             <p class="card-category">Category</p>
-                            <h4 class="card-title">10</h4>
+                            <h4 class="card-title"><?= number_format($cat) ?></h4>
                         </div>
                     </div>
                 </div>
@@ -84,7 +84,7 @@
                     <div class="col-9 col-stats">
                         <div class="numbers">
                             <p class="card-category">Inquiry</p>
-                            <h4 class="card-title">10</h4>
+                            <h4 class="card-title"><?= number_format($inqui) ?></h4>
                         </div>
                     </div>
                 </div>
@@ -92,8 +92,36 @@
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">User Chart</div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="doughnutChart1" style="width: 50%; height: 50%"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">Establishment Chart</div>
+            </div>
+            <div class="card-body">
+                <div class="chart-container">
+                    <canvas id="doughnutChart" style="width: 50%; height: 50%"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="card w-100">
     <div class="card-body">
-        <img src="<?= site_url('assets/img/more-services-4.jpg') ?>" class="img-fluid w-100" />
+        <img src="<?= site_url('assets/img/review.jpg') ?>" class="img-fluid w-100" />
     </div>
 </div>

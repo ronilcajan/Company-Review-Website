@@ -22,11 +22,19 @@
 <!-- jQuery Validation -->
 <script src="<?= site_url() ?>assets/js/plugin/jquery.validate/jquery.validate.min.js"></script>
 
+<script src="<?= site_url() ?>assets/js/plugin/datatables/Buttons-1.6.1/js/dataTables.buttons.min.js"></script>
+<script src="<?= site_url() ?>assets/js/plugin/datatables/pdfmake-0.1.36/pdfmake.min.js"></script>
+<script src="<?= site_url() ?>assets/js/plugin/datatables/pdfmake-0.1.36/vfs_fonts.js"></script>
+<script src="<?= site_url() ?>assets/js/plugin/datatables/Buttons-1.6.1/js/buttons.html5.min.js"></script>
+<script src="<?= site_url() ?>assets/js/plugin/datatables/Buttons-1.6.1/js/buttons.print.min.js"></script>
+
 <!-- Select2 -->
 <script src="<?= site_url() ?>assets/js/plugin/select2/select2.full.min.js"></script>
 <script src="<?= site_url() ?>assets/js/plugin/bootstrap-tagsinput/bootstrap-tagsinput.min.js"></script>
 <script src="<?= site_url() ?>assets/js/plugin/chart.js/chart.min.js"></script>
 <script src="<?= site_url() ?>assets/js/atlantis.js"></script>
+
+<script src="<?= site_url() ?>assets/js/chart.js"></script>
 
 <script src="<?= site_url() ?>assets/js/customScript.js"></script>
 <script src="<?= site_url() ?>assets/js/ajaxForms.js"></script>

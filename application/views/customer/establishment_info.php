@@ -77,41 +77,60 @@
                                     <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                                 </p>
                                 <small class="text-muted">Review Published: <?= date('F d, Y', strtotime($row['timestamp'])) ?></small>
-                                <?php $rev_id = $row['rev_id'];
+                                <?php
+                                $rev_id = $row['rev_id'];
                                 $query = $this->db->query('SELECT * FROM comments JOIN users ON users.id=comments.user_id WHERE review_id=' . $rev_id . ' ');
-                                $result = $query->row(); ?>
-                                <?php if ($estab->user_id == $user->id && empty($result)) : ?>
-                                    <form method="POST" action="<?= site_url('add_comment') ?>">
-                                        <div class="row mt-3 ">
-                                            <div class="col-2 text-center">
-                                                <img class="img-rounded" width="40" src="<?= $user->avatar ? site_url('assets/uploads/') . $user->avatar : site_url('assets/img/person.png') ?>" />
-                                            </div>
-                                            <div class="col-8">
-                                                <div class="form-group">
-                                                    <input class="form-control" type="text" name="comments" placeholder="Enter reply" required />
-                                                    <input type="hidden" name="rev_id" value="<?= $rev_id ?>" />
+                                $result = $query->row();
+                                ?>
+                                <?php if ($this->ion_auth->logged_in()) : ?>
+                                    <?php if ($estab->user_id == $user->id && empty($result)) : ?>
+                                        <form method="POST" action="<?= site_url('add_comment') ?>">
+                                            <div class="row mt-3 ">
+                                                <div class="col-2 text-center">
+                                                    <img class="img-rounded" width="40" src="<?= $user->avatar ? site_url('assets/uploads/') . $user->avatar : site_url('assets/img/person.png') ?>" />
+                                                </div>
+                                                <div class="col-8">
+                                                    <div class="form-group">
+                                                        <input class="form-control" type="text" name="comments" placeholder="Enter reply" required />
+                                                        <input type="hidden" name="rev_id" value="<?= $rev_id ?>" />
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 ">
+                                                    <button type="submit" class="btn btn-primary btn-sm">Reply</button>
                                                 </div>
                                             </div>
-                                            <div class="col-2 ">
-                                                <button type="submit" class="btn btn-primary btn-sm">Reply</button>
+                                        </form>
+                                    <?php else : ?>
+                                        <?php if (!empty($result->comments)) : ?>
+                                            <div class="row mt-5 ">
+                                                <p>Reply from "<?= $estab->name ?>" </p>
+                                                <div class="col-2 text-center">
+                                                    <img class="img-rounded mt-2" width="40" src="<?= $estab->logo ? site_url('assets/uploads/') . $estab->logo : site_url('assets/img/person.png') ?>" />
+                                                </div>
+                                                <div class="col-10">
+                                                    <div class="form-group">
+                                                        <p class="mt-0"><?= $result->comments ?></p>
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </form>
+                                        <?php endif ?>
+                                    <?php endif ?>
                                 <?php else : ?>
-                                    <div class="row mt-5 ">
-                                        <p>Reply from "<?= $estab->name ?>" </p>
-                                        <div class="col-2 text-center">
-                                            <img class="img-rounded mt-2" width="40" src="<?= $estab->logo ? site_url('assets/uploads/') . $estab->logo : site_url('assets/img/person.png') ?>" />
-                                        </div>
-                                        <div class="col-10">
-                                            <div class="form-group">
-                                                <p class="mt-0"><?= $result->comments ?></p>
+                                    <?php if (!empty($result->comments)) : ?>
+                                        <div class="row mt-5 ">
+                                            <p>Reply from "<?= $estab->name ?>" </p>
+                                            <div class="col-2 text-center">
+                                                <img class="img-rounded mt-2" width="40" src="<?= $estab->logo ? site_url('assets/uploads/') . $estab->logo : site_url('assets/img/person.png') ?>" />
+                                            </div>
+                                            <div class="col-10">
+                                                <div class="form-group">
+                                                    <p class="mt-0"><?= $result->comments ?></p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    <?php endif ?>
                                 <?php endif ?>
                             </div>
-
                         </div>
                     <?php endforeach ?>
 

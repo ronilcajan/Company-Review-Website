@@ -36,6 +36,7 @@ class Establishment extends CI_Controller
     {
         $data['estab'] = $this->estabModel->getestab($id);
         $data['review'] = $this->reviewModel->getreview($id);
+        $data['ratings'] = $this->reviewModel->getratings($id);
 
         $data['title'] = 'Establishment Profile';
         $this->base->load('admin', 'admin/establishment/profile', $data);

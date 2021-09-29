@@ -4,7 +4,7 @@
 	<div class="container">
 		<div class="text-center">
 			<h1 data-aos="fade-up">Contact Us</h1>
-			<h3 data-aos="fade-up" data-aos-delay="400">Home | Get In Touch</h3>
+			<h3 data-aos="fade-up" data-aos-delay="400">Get In Touch</h3>
 		</div>
 	</div>
 

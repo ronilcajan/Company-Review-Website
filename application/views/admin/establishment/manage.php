@@ -25,7 +25,7 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="catTable" class="display table table-striped table-hover">
+                    <table id="estabTable" class="display table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th>Name</th>

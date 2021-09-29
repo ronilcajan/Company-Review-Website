@@ -21,8 +21,11 @@ class Home extends CI_Controller
 	 */
 	public function index()
 	{
-
 		$data['title'] = 'Home';
+
+		$data['cat'] = $this->catModel->getcategory();
+		$data['estab'] = $this->estabModel->getestabs();
+		$data['reviews'] = $this->reviewModel->review();
 
 		$this->base->load('default', 'customer/home', $data);
 	}
@@ -47,6 +50,15 @@ class Home extends CI_Controller
 		$data['title'] = 'All Establishment';
 
 		$this->base->load('default', 'customer/establishment', $data);
+	}
+	public function establishment_info($id)
+	{
+		$data['estab'] = $this->estabModel->getestab($id);
+		$data['ratings'] = $this->reviewModel->getratings($id);
+		$data['reviews'] = $this->reviewModel->getreview($id);
+
+		$data['title'] = 'Establishment Profile';
+		$this->base->load('default', 'customer/establishment_info', $data);
 	}
 	public function category()
 	{
@@ -77,13 +89,14 @@ class Home extends CI_Controller
 
 		$this->base->load('default', 'customer/listing', $data);
 	}
-	public function establishment_info($id)
-	{
-		$data['estab'] = $this->estabModel->getestab($id);
-		$data['ratings'] = $this->reviewModel->getratings($id);
-		$data['reviews'] = $this->reviewModel->getreview($id);
 
-		$data['title'] = 'Establishment Profile';
-		$this->base->load('default', 'customer/establishment_info', $data);
+	public function my_review()
+	{
+		$user = $this->ion_auth->user()->row();
+		$data['review'] = $this->reviewModel->myreview($user->id);
+
+		$data['title'] = 'My Review';
+
+		$this->base->load('default', 'customer/my_review', $data);
 	}
 }

@@ -28,6 +28,12 @@
                         <p>Reviews</p>
                     </a>
                 </li>
+                <li class="nav-item <?= $current_page == 'comments' ? 'active' : null ?>">
+                    <a href="<?= site_url('admin/comments') ?>">
+                        <i class="icon-bubbles"></i>
+                        <p>Comments</p>
+                    </a>
+                </li>
                 <li class="nav-item <?= $current_page == 'category' ? 'active' : null ?>">
                     <a href="<?= site_url('admin/category') ?>">
                         <i class="icon-grid"></i>
@@ -38,12 +44,6 @@
                     <a href="<?= site_url('admin/inquiry') ?>">
                         <i class="far fa-question-circle"></i>
                         <p>Inquiry</p>
-                    </a>
-                </li>
-                <li class="nav-item <?= $current_page == 'reports' ? 'active' : null ?>">
-                    <a href="<?= site_url('admin/reports') ?>">
-                        <i class="icon-chart"></i>
-                        <p>Reports</p>
                     </a>
                 </li>
                 <?php if ($this->ion_auth->is_admin()) : ?>

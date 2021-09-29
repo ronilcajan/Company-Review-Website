@@ -31,6 +31,17 @@ class EstabModel extends CI_Model
         return $query->result_array();
     }
 
+    public function getestabs()
+    {
+        $this->db->select('*, establishment.name as name, category.name as cat_name,  category.id as cat_id, establishment.description as desc, establishment.id as id');
+        $this->db->join('category', 'category.id=establishment.category_id');
+        $this->db->where('establishment.status ', 'Active');
+        $this->db->limit(4);
+        $query = $this->db->get('establishment');
+
+        return $query->result_array();
+    }
+
     public function save($data)
     {
         $this->db->insert('establishment', $data);

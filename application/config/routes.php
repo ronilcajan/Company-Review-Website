@@ -53,6 +53,7 @@ $route['default_controller'] = 'home';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
+$route['admin'] = 'auth/login';
 $route['auth'] = 'auth/login';
 $route['admin/users'] = 'auth/users';
 
@@ -64,11 +65,13 @@ $route['category_info/(:num)'] = 'home/category_info/$1';
 $route['listing'] = 'home/listing';
 $route['establishment_info/(:num)'] = 'home/establishment_info/$1';
 $route['add_comment'] = 'review/add_comment';
+$route['my_review'] = 'home/my_review';
 
 $route['admin/dashboard'] = 'dashboard/index';
 $route['admin/category'] = 'category/index';
 $route['admin/inquiry'] = 'inquiry/index';
 $route['admin/reviews'] = 'review/index';
+$route['admin/comments'] = 'review/comments';
 
 $route['admin/establishment'] = 'establishment/index';
 $route['get_estab'] = 'establishment/getEstab';

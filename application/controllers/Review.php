@@ -31,6 +31,17 @@ class Review extends CI_Controller
         $this->base->load('admin', 'admin/review/manage', $data);
     }
 
+    public function comments()
+    {
+        if (!$this->ion_auth->is_admin()) {
+            redirect('auth', 'refresh');
+        }
+
+        $data['title'] = 'Comment Management';
+        $data['comments'] = $this->reviewModel->comments();
+
+        $this->base->load('admin', 'admin/comments/manage', $data);
+    }
 
     public function add_review()
     {
@@ -123,6 +134,18 @@ class Review extends CI_Controller
         }
         redirect('admin/reviews', 'refresh');
     }
+    public function delete_comment($id)
+    {
+
+        $delete = $this->reviewModel->delete_comment($id);
+
+        if ($delete) {
+            $this->session->set_flashdata('errors', 'Comment has been deleted!');
+        } else {
+            $this->session->set_flashdata('errors', 'Something went wrong!');
+        }
+        redirect($_SERVER['HTTP_REFERER'], 'refresh');
+    }
     public function delete($id)
     {
 
@@ -133,6 +156,6 @@ class Review extends CI_Controller
         } else {
             $this->session->set_flashdata('errors', 'Something went wrong!');
         }
-        redirect('admin/reviews', 'refresh');
+        redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }
 }

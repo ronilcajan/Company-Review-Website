@@ -69,6 +69,7 @@ $sys = $query->row();
 								<ul>
 									<li><a href="<?= site_url('admin/dashboard') ?>">Dashboard</a></li>
 									<li><a href="<?= site_url('listing') ?>" class="<?= $current_page == 'listing' ? 'active' : null ?>">My Listing</a></li>
+									<li><a href="<?= site_url('my_review') ?>" class="<?= $current_page == 'review' ? 'active' : null ?>">My Review</a></li>
 									<li><a class="text-danger" href="<?= site_url('auth/logout') ?>">Logout</a></li>
 								</ul>
 							</li>
@@ -86,6 +87,7 @@ $sys = $query->row();
 								<ul>
 									<li><a href="<?= site_url('auth/edit_user/') . $user->id ?>" class="<?= $current_page1 == 'edit_user' ? 'active' : null ?>">Profile</a></li>
 									<li><a href="<?= site_url('listing') ?>" class="<?= $current_page == 'listing' ? 'active' : null ?>">My Listing</a></li>
+									<li><a href="<?= site_url('my_review') ?>" class="<?= $current_page == 'review' ? 'active' : null ?>">My Review</a></li>
 									<li><a class="text-danger" href="<?= site_url('auth/logout') ?>">Logout</a></li>
 								</ul>
 							</li>
