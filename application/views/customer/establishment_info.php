@@ -70,7 +70,7 @@
                                         <h4>Rating <?= number_format($row['ratings'], 1) ?> / 5.0</h4>
                                     </div>
                                 </div>
-                                <h3>"<?= ucwords($row['title']) ?>"</h3>
+                                <!-- <h3>"<?= ucwords($row['title']) ?>"</h3> -->
                                 <p>
                                     <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                                     <?= $row['details'] ?>
@@ -155,9 +155,9 @@
                                 </div>
                                 <input type="hidden" name="ratings" id="myrating">
                                 <input type="hidden" name="estab" value="<?= $estab->id ?>">
-                                <div class="form-group">
+                                <!-- <div class="form-group">
                                     <input type="text" name="title" class="form-control" id="title" placeholder="Add Title" required>
-                                </div>
+                                </div> -->
                                 <div class="form-group">
                                     <textarea class="form-control" name="review" id="review" placeholder="Your Review" required></textarea>
                                 </div>

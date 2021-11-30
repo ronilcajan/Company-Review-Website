@@ -25,7 +25,7 @@
                     <table id="reviewTable" class="display table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th>Review Title</th>
+                                <!-- <th>Review Title</th> -->
                                 <th>Details</th>
                                 <th>Ratings</th>
                                 <th>Establishment</th>
@@ -37,7 +37,7 @@
                         </thead>
                         <tfoot>
                             <tr>
-                                <th>Review Title</th>
+                                <!-- <th>Review Title</th> -->
                                 <th>Details</th>
                                 <th>Ratings</th>
                                 <th>Establishment</th>
@@ -50,7 +50,7 @@
                         <tbody>
                             <?php foreach ($review as $row) : ?>
                                 <tr>
-                                    <td><?= htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                    <!-- <td><?= htmlspecialchars($row['title'], ENT_QUOTES, 'UTF-8'); ?></td> -->
                                     <td><?= htmlspecialchars($row['details'], ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?= htmlspecialchars(number_format($row['ratings'], 1), ENT_QUOTES, 'UTF-8'); ?></td>
                                     <td><?= htmlspecialchars($row['name'], ENT_QUOTES, 'UTF-8'); ?></td>

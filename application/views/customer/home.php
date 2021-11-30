@@ -216,6 +216,83 @@
 		</div>
 	</section><!-- End Testimonials Section -->
 
+	<!-- ======= More Services Section ======= -->
+	<section id="more-services" class="more-services">
+		<div class="container">
+			<div class="section-title" data-aos="fade-up">
+				<h2>HIGHEST REVIEWS</h2>
+				<p>Based on the customers reviews</p>
+			</div>
+			<div class="row">
+				<?php if ($estab) : ?>
+					<?php foreach ($estab as $row) : ?>
+						<?php $est_id = $row['id'];
+						$query = $this->db->query('SELECT COUNT(review.id) as reviews, AVG(review.ratings) as rating FROM review WHERE `status`="Published" AND estab_id=' . $est_id . ' ');
+						$result = $query->row(); ?>
+						<?php if (number_format($result->rating, 1) >= 4) : ?>
+							<div class="col-md-6 d-flex align-items-stretch mb-4">
+								<div class="card" style='background-image: url("<?= $row['image'] ? site_url('assets/uploads/') . $row['image'] : site_url('assets/img/bg-abstract2.png') ?>");' data-aos="fade-up" data-aos-delay="100">
+
+									<div class="card-body text-center">
+										<img class="avatar-img rounded-circle mb-2" alt="user" src="<?= $row['logo'] ? site_url('assets/uploads/') . $row['logo'] : site_url('assets/img/person.png') ?>" width="60" />
+
+										<h5 class="card-title mb-0"><a href="<?= site_url('establishment_info/') . $row['id'] ?>"> <?= $row['name'] ?></a></h5>
+										<small><a class="text-muted" href="<?= site_url('category_info/') . $row['cat_id'] ?>"><?= $row['cat_name'] ?></a></small>
+										<p class="card-text"><?= $row['desc'] ?></p>
+										<?= display_skill_level(number_format($result->rating, 1)) ?><br>
+										<small class="card-text text-center "> User Rating <?= number_format($result->rating, 1) ?> / 5.0</small>
+									</div>
+
+								</div>
+							</div>
+						<?php endif ?>
+					<?php endforeach ?>
+				<?php else : ?>
+					<h4>No establishment</h4>
+				<?php endif ?>
+			</div>
+
+		</div>
+	</section><!-- End More Services Section -->
+
+	<!-- ======= More Services Section ======= -->
+	<section id="more-services" class="more-services">
+		<div class="container">
+			<div class="section-title" data-aos="fade-up">
+				<h2>LOWEST REVIEWS</h2>
+				<p>Based on the customers reviews</p>
+			</div>
+			<div class="row">
+				<?php if ($estab) : ?>
+					<?php foreach ($estab as $row) : ?>
+						<?php $est_id = $row['id'];
+						$query = $this->db->query('SELECT COUNT(review.id) as reviews, AVG(review.ratings) as rating FROM review WHERE `status`="Published" AND estab_id=' . $est_id . ' ');
+						$result = $query->row(); ?>
+						<?php if (number_format($result->rating, 1) <= 2) : ?>
+							<div class="col-md-6 d-flex align-items-stretch mb-4">
+								<div class="card" style='background-image: url("<?= $row['image'] ? site_url('assets/uploads/') . $row['image'] : site_url('assets/img/bg-abstract2.png') ?>");' data-aos="fade-up" data-aos-delay="100">
+									<div class="card-body text-center">
+										<img class="avatar-img rounded-circle mb-2" alt="user" src="<?= $row['logo'] ? site_url('assets/uploads/') . $row['logo'] : site_url('assets/img/person.png') ?>" width="60" />
+
+										<h5 class="card-title mb-0"><a href="<?= site_url('establishment_info/') . $row['id'] ?>"> <?= $row['name'] ?></a></h5>
+										<small><a class="text-muted" href="<?= site_url('category_info/') . $row['cat_id'] ?>"><?= $row['cat_name'] ?></a></small>
+										<p class="card-text"><?= $row['desc'] ?></p>
+										<?= display_skill_level(number_format($result->rating, 1)) ?><br>
+										<small class="card-text text-center "> User Rating <?= number_format($result->rating, 1) ?> / 5.0</small>
+									</div>
+								</div>
+							</div>
+						<?php endif ?>
+					<?php endforeach ?>
+				<?php else : ?>
+					<h4>No establishment</h4>
+				<?php endif ?>
+			</div>
+
+		</div>
+	</section><!-- End More Services Section -->
+
+
 	<!-- ======= Contact Section ======= -->
 	<section id="contact" class="contact">
 		<div class="container">

@@ -190,8 +190,36 @@ class Auth extends CI_Controller
 				if ($this->ion_auth->login($this->input->post('identity'), $this->input->post('password'), $remember)) {
 					//if the login is successful
 					//redirect them back to the home page
-					$this->session->set_flashdata('success', 'success');
-					$this->session->set_flashdata('message', $this->ion_auth->messages());
+
+					$config = [
+						'protocol' => 'smtp',
+						'smtp_host' => 'ssl://smtp.googlemail.com',
+						'smtp_port' => 465,
+						'smtp_user' => 'jameronjame@gmail.com',
+						'smtp_pass' => 'KAGEbunshin1?',
+						'mailtype' => 'html'
+					];
+					$data = array(
+						'identity' => $this->input->post('identity'),
+					);
+					$this->load->library('email');
+					$this->email->initialize($config);
+					$this->email->set_newline("\r\n");
+
+					$this->email->from('jameronjame@gmail.com', 'Oroqueita Evaluation');
+					$this->email->to($data['identity']);
+					$this->email->subject('Login Successfully');
+					$body = $this->load->view('auth/email/login_msg.tpl.php', $data, TRUE);
+
+					$this->email->message($body);
+					if ($this->email->send()) {
+						$this->session->set_flashdata('success', 'success');
+						$this->session->set_flashdata('message', $this->ion_auth->messages());
+					} else {
+						echo 'Email not sent!';
+						show_error($this->email->print_debugger());
+					}
+
 					if ($this->ion_auth->is_admin()) {
 						redirect('admin/dashboard', 'refresh');
 					} else {
@@ -602,6 +630,7 @@ class Auth extends CI_Controller
 
 			// run the forgotten password method to email an activation code to the user
 			$forgotten = $this->ion_auth->forgotten_password($identity->{$this->config->item('identity', 'ion_auth')});
+
 
 			if ($forgotten) {
 

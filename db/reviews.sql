@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2021 at 02:32 PM
+-- Generation Time: Oct 12, 2021 at 07:20 PM
 -- Server version: 10.4.20-MariaDB
 -- PHP Version: 7.4.21
 
@@ -149,13 +149,6 @@ CREATE TABLE `login_attempts` (
   `time` int(11) UNSIGNED DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Dumping data for table `login_attempts`
---
-
-INSERT INTO `login_attempts` (`id`, `ip_address`, `login`, `time`) VALUES
-(28, '::1', 'power@gmail.com', 1632890201);
-
 -- --------------------------------------------------------
 
 --
@@ -242,7 +235,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `ip_address`, `username`, `password`, `email`, `activation_selector`, `activation_code`, `forgotten_password_selector`, `forgotten_password_code`, `forgotten_password_time`, `remember_selector`, `remember_code`, `created_on`, `last_login`, `active`, `first_name`, `last_name`, `birthdate`, `address`, `avatar`, `company`, `phone`, `gender`) VALUES
 (1, '127.0.0.1', 'administrator', '$2y$10$YlRyLiNETi/SL..vdnw61OwgFpr0V92xJymt4NbqJBmN7sY6nSwye', 'admin@admin.com', NULL, '', NULL, NULL, NULL, NULL, NULL, 1268889823, 1632891459, 1, 'Admin', 'istrator', '2021-09-03', 'Looc', '9d2f5cba2760e6384e5039a7c9e64dd0.jpg', '094545454', 'fdgfdgfdgfdg', 'female'),
-(15, '::1', NULL, '$2y$10$w0SHzfWj7RhUeTPoFZUBR.SWgA.qWdXLfK9FW63Qf09edqa/23J3u', 'cajanr02@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1632890238, 1632890242, 1, 'Ron', 'Cajan', NULL, NULL, NULL, NULL, NULL, NULL);
+(15, '::1', NULL, '$2y$10$w0SHzfWj7RhUeTPoFZUBR.SWgA.qWdXLfK9FW63Qf09edqa/23J3u', 'cajanr02@gmail.com', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1632890238, 1633761377, 1, 'Ron', 'Cajan', NULL, NULL, NULL, NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -351,7 +344,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `comments`
 --
 ALTER TABLE `comments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `establishment`

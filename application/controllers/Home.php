@@ -26,7 +26,6 @@ class Home extends CI_Controller
 		$data['cat'] = $this->catModel->getcategory();
 		$data['estab'] = $this->estabModel->getestabs();
 		$data['reviews'] = $this->reviewModel->review();
-
 		$this->base->load('default', 'customer/home', $data);
 	}
 

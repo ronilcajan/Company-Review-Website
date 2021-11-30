@@ -50,7 +50,7 @@ class Review extends CI_Controller
         $this->session->set_flashdata('success', 'danger');
         if ($this->ion_auth->logged_in()) {
 
-            $this->form_validation->set_rules('title', 'Review Title', 'required|trim');
+            // $this->form_validation->set_rules('title', 'Review Title', 'required|trim');
             $this->form_validation->set_rules('ratings', 'Ratings', 'required|trim');
             $this->form_validation->set_rules('review', 'Review', 'required|trim');
 
@@ -61,7 +61,7 @@ class Review extends CI_Controller
 
                 $data = array(
                     'estab_id' => $this->input->post('estab'),
-                    'title' => $this->input->post('title'),
+                    // 'title' => $this->input->post('title'),
                     'details' => $this->input->post('review'),
                     'ratings' => $this->input->post('ratings'),
                     'ratings' => $this->input->post('ratings'),

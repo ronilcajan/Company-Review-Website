@@ -51,7 +51,6 @@ $sys = $query->row();
 				<ul>
 					<li><a class="nav-link <?= $current_page == '' ? 'active' : null ?>" href="<?= site_url() ?>">Home</a></li>
 					<li><a class="nav-link <?= $current_page == 'about' ? 'active' : null ?>" href="<?= site_url('about') ?>">About Us</a></li>
-					<li><a class="nav-link <?= $current_page == 'establishment' ? 'active' : null ?>" href="<?= site_url('establishment') ?>">Establishment</a></li>
 					<li><a class="nav-link <?= $current_page == 'category' ? 'active' : null ?>" href="<?= site_url('category') ?>">Category</a></li>
 					<li><a class="nav-link <?= $current_page == 'contact' ? 'active' : null ?>" href="<?= site_url('contact') ?>">Contact Us</a></li>
 					<?php if ($this->ion_auth->logged_in()) : ?>

@@ -39,6 +39,9 @@ class ReviewModel extends CI_Model
         return $query->result_array();
     }
 
+
+
+
     public function myreview($id)
     {
         $this->db->select('*, review.status as status, review.status as rev_id');
