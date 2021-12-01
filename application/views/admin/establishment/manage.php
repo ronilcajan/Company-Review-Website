@@ -57,7 +57,7 @@
                                     <td>
                                         <?php if (empty($row['logo'])) : ?>
                                             <div class="avatar avatar-xs">
-                                                <img class="avatar-img rounded-circle" alt="user" src="<?= site_url() ?>assets/img/person.png" />
+                                                <img class="avatar-img rounded-circle" alt="user" src="http://placehold.it/100x100" />
                                             </div>
                                         <?php else : ?>
                                             <div class="avatar avatar-xs">

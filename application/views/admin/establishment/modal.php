@@ -25,7 +25,7 @@
                             <div class="form-group">
                                 <label>Select Category</label>
                                 <div class="select2-input">
-                                    <select id="basic" name="category" class="form-control" style="width:100%;">
+                                    <select name="category" class="form-control" style="width:100%;">
                                         <optgroup label="Category Name">
                                             <?php foreach ($cat as $row) : ?>
                                                 <option value="<?= $row['id'] ?>"><?= $row['name'] ?></option>
