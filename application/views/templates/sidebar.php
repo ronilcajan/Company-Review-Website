@@ -1,6 +1,6 @@
 <?php $current_page = $this->uri->segment(2); ?>
 <!-- Sidebar -->
-<div class="sidebar sidebar-style-2" data-background-color="dark2">
+<div class="sidebar sidebar-style-2" data-background-color="purple2">
     <div class="sidebar-wrapper scrollbar scrollbar-inner">
         <div class="sidebar-content">
             <ul class="nav nav-primary">

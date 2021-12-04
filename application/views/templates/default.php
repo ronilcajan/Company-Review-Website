@@ -44,7 +44,7 @@ $sys = $query->row();
 			<div class="logo">
 				<!-- <h1><a href="<?= site_url() ?>">Vesperr</a></h1> -->
 				<!-- Uncomment below if you prefer to use an image logo -->
-				<a href="<?= site_url() ?>"><img src="<?= site_url('assets/uploads/') . $sys->system_logo ?>" alt="" class="img-fluid"></a>
+				<a href="<?= site_url() ?>"><img src="<?= site_url('assets/uploads/') . $sys->system_logo ?>" alt="" class="img-fluid"> <span style="font-weight: bold; color:black"><?= $sys->system_name ?></span></a>
 			</div>
 
 			<nav id="navbar" class="navbar">
@@ -105,9 +105,51 @@ $sys = $query->row();
 	</header><!-- End Header -->
 
 	<?= $content ?>
+	<!-- ======= Contact Section ======= -->
+	<section id="contact" class="contact text-white" style="background-color: #54318B;">
+		<div class="container">
 
+			<div class="row">
+
+				<div class="col-lg-8 col-md-6 text-white" data-aos="fade-up" data-aos-delay="100">
+					<div class="contact-about">
+						<h3 class="text-white"><?= $sys->system_name ?></h3>
+						<p class="text-white">Cras fermentum odio eu feugiat. Justo eget magna fermentum iaculis eu non diam phasellus. Scelerisque felis imperdiet proin fermentum leo. Amet volutpat consequat mauris nunc congue.</p>
+						<div class="social-links">
+							<a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
+							<a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
+							<a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
+							<a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-lg-4 col-md-6 mt-4 mt-md-0" data-aos="fade-up" data-aos-delay="200">
+					<div class="info">
+						<div>
+							<i class="ri-map-pin-line"></i>
+							<p class="text-white">A108 Adam Street<br>New York, NY 535022</p>
+						</div>
+
+						<div>
+							<i class="ri-mail-send-line"></i>
+							<p class="text-white">info@example.com</p>
+						</div>
+
+						<div>
+							<i class="ri-phone-line"></i>
+							<p class="text-white">+1 5589 55488 55s</p>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+	</section><!-- End Contact Section -->
 	<!-- ======= Footer ======= -->
-	<footer id="footer">
+	<footer id="footer" class="bg-dark text-light">
 		<div class="container">
 			<div class="row d-flex align-items-center">
 				<div class="col-lg-12 text-lg-left text-center">

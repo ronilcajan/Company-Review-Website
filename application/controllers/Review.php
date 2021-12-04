@@ -130,19 +130,21 @@ class Review extends CI_Controller
             $this->session->set_flashdata('success', 'success');
             $this->session->set_flashdata('message', 'Review has been published!');
         } else {
-            $this->session->set_flashdata('errors', 'Something went wrong!');
+            $this->session->set_flashdata('success', 'danger');
+            $this->session->set_flashdata('message', 'Something went wrong!');
         }
         redirect('admin/reviews', 'refresh');
     }
     public function delete_comment($id)
     {
 
+        $this->session->set_flashdata('success', 'danger');
         $delete = $this->reviewModel->delete_comment($id);
 
         if ($delete) {
-            $this->session->set_flashdata('errors', 'Comment has been deleted!');
+            $this->session->set_flashdata('message', 'Comment has been deleted!');
         } else {
-            $this->session->set_flashdata('errors', 'Something went wrong!');
+            $this->session->set_flashdata('message', 'Something went wrong!');
         }
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }
@@ -150,11 +152,11 @@ class Review extends CI_Controller
     {
 
         $delete = $this->reviewModel->delete($id);
-
+        $this->session->set_flashdata('success', 'danger');
         if ($delete) {
-            $this->session->set_flashdata('errors', 'Review has been deleted!');
+            $this->session->set_flashdata('message', 'Review has been deleted!');
         } else {
-            $this->session->set_flashdata('errors', 'Something went wrong!');
+            $this->session->set_flashdata('message', 'Something went wrong!');
         }
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }

@@ -8,7 +8,7 @@ $review = $sql->result();
 ?>
 <div class="main-header">
     <!-- Logo Header -->
-    <div class="logo-header" data-background-color="dark2">
+    <div class="logo-header" data-background-color="purple2">
 
         <a href="<?= site_url('admin/dashboard') ?>" class="logo">
             <img src="<?= site_url('assets/uploads/') . $sys->system_logo ?>" alt="navbar brand" class="navbar-brand" width="40">
@@ -31,7 +31,7 @@ $review = $sql->result();
     <!-- End Logo Header -->
 
     <!-- Navbar Header -->
-    <nav class="navbar navbar-header navbar-expand-lg" data-background-color="dark">
+    <nav class="navbar navbar-header navbar-expand-lg" data-background-color="purple2">
 
         <div class="container-fluid">
             <ul class="navbar-nav topbar-nav ml-md-auto align-items-center">

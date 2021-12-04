@@ -99,11 +99,11 @@ class Category extends CI_Controller
     {
 
         $delete = $this->catModel->delete($id);
-
+        $this->session->set_flashdata('success', 'danger');
         if ($delete) {
-            $this->session->set_flashdata('errors', 'Category has been deleted!');
+            $this->session->set_flashdata('message', 'Category has been deleted!');
         } else {
-            $this->session->set_flashdata('errors', 'Something went wrong!');
+            $this->session->set_flashdata('message', 'Something went wrong!');
         }
         redirect('admin/category', 'refresh');
     }

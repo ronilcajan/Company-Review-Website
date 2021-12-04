@@ -55,12 +55,13 @@ class Establishment extends CI_Controller
 
     public function delete($id)
     {
+        $this->session->set_flashdata('success', 'danger');
         $delete = $this->estabModel->delete($id);
 
         if ($delete) {
-            $this->session->set_flashdata('errors', 'Establishment has been deleted!');
+            $this->session->set_flashdata('message', 'Establishment has been deleted!');
         } else {
-            $this->session->set_flashdata('errors', 'Something went wrong!');
+            $this->session->set_flashdata('message', 'Something went wrong!');
         }
         redirect($_SERVER['HTTP_REFERER'], 'refresh');
     }

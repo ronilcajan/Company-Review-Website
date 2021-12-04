@@ -9,7 +9,7 @@ $sys = $query->row();
 	<?php $this->load->view('templates/header'); ?>
 </head>
 
-<body data-background-color="dark">
+<body>
 	<div id="loading-container" class="preloader">
 		<div id="loading-screen">
 			<div class="loader loader-lg"></div>
@@ -23,9 +23,9 @@ $sys = $query->row();
 		<div class="main-panel">
 
 			<div class="container">
-				<div class="page-inner text-light">
+				<div class="page-inner">
 					<?php if (!empty($message) || !empty($this->session->flashdata('message'))) : ?>
-						<div class="alert alert-<?= $this->session->flashdata('success'); ?> bg-<?= $this->session->flashdata('success'); ?>" role="alert">
+						<div class="alert alert-<?= $this->session->flashdata('success'); ?> bg-<?= $this->session->flashdata('success'); ?> text-light" role="alert">
 							<?php
 							if (!empty($message)) {
 								echo $message;
